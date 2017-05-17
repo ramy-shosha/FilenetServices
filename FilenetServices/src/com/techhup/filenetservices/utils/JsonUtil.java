@@ -26,4 +26,15 @@ public class JsonUtil {
 		return list;
 	}
 	
+public JSONObject taskDetals(TaskDetails taskDetails){
+		
+		
+			JSONObject obj = new JSONObject();
+	        obj.put("id", taskDetails.getId());
+	        obj.put("taskName",taskDetails.getTaskName());
+	        obj.put("taskDetails",taskDetails.getTaskDescription());
+		
+		return obj;
+	}
+	
 }

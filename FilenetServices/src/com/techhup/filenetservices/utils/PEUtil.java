@@ -85,7 +85,7 @@ public class PEUtil {
 	
 	public ArrayList<TaskDetails> getInbox() {
 		ArrayList<TaskDetails> tasklist = new ArrayList<>();
-		String queueName = "inbox";
+		String queueName = "Inbox";
 		// Retrieve the Queue
 		VWQueue queue = myPESession.getQueue(queueName);
 		// Set Query Parameters
@@ -105,10 +105,9 @@ public class PEUtil {
 		return tasklist;
 	}
 	
-	public boolean checkFD() {
-
-		boolean result= true;
-		String queueName = "SAB";
+	public TaskDetails getTaskDetails(String taskID) {
+		TaskDetails taskDetails = new TaskDetails();
+		String queueName = "inbox";
 		// Retrieve the Queue
 		VWQueue queue = myPESession.getQueue(queueName);
 		// Set Query Parameters
@@ -119,13 +118,16 @@ public class PEUtil {
 		// Process Results
 		while (queueQuery.hasNext()) {
 			VWStepElement stepElement = (VWStepElement) queueQuery.next();
-			if (!stepElement.getStepName().equalsIgnoreCase("Approved for first draft")) {
-				result = false;
+			if (!stepElement.getWorkObjectNumber().equalsIgnoreCase(taskID)) {
+				taskDetails.setId(taskID);
+				taskDetails.setTaskName(stepElement.getStepName());
+				taskDetails.setTaskDescription(stepElement.getStepDescription());
+				
 				break;
 			}
 		}
 
-		return result;
+		return taskDetails;
 	}
 	
 	public boolean checkSD() {

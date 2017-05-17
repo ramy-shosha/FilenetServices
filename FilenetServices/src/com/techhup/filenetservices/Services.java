@@ -9,6 +9,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import com.techhup.filenetservices.models.TaskDetails;
 import com.techhup.filenetservices.utils.CEConnection;
@@ -41,7 +42,7 @@ public class Services {
 	@GET
 	@Path("/taskList")
 	@Produces(MediaType.APPLICATION_JSON)
-	public JSONArray taskList(@QueryParam("userName") String userName, @QueryParam("password") String password) {
+	public String taskList(@QueryParam("userName") String userName, @QueryParam("password") String password) {
 		JSONArray userInbox = null;
 		try {
 			PEUtil peUtil = new PEUtil(); 
@@ -49,11 +50,31 @@ public class Services {
 			ArrayList<TaskDetails> inboxList = peUtil.getInbox();
 			JsonUtil jsonUtil = new JsonUtil();
 			userInbox = jsonUtil.userInbox(inboxList);
-			return userInbox;
+			return userInbox.toString();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return userInbox;
+		return userInbox.toString();
+	}
+	
+	
+	@GET
+	@Path("/taskDetails")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String taskDetials(@QueryParam("userName") String userName, @QueryParam("password") String password, @QueryParam("taskID") String taskID) {
+		JSONObject taskDetials = null;
+		try {
+			PEUtil peUtil = new PEUtil(); 
+			peUtil.login(userName, password);
+			TaskDetails taskDetails = peUtil.getTaskDetails(taskID);
+			JsonUtil jsonUtil = new JsonUtil();
+			taskDetials = jsonUtil.taskDetals(taskDetails);
+			return taskDetials.toString();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return taskDetials.toString();
 	}
 }
