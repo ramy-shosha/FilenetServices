@@ -13,7 +13,8 @@ public enum EnviromentDefinitions {
 	STANZA("FileNetP8"),
 	ADMIN("cpeadmin"),
 	ADMIN_PASS("Ebla1234"),
-	Observations_FOLER_NAME("SAB Intial Report");
+	Observations_FOLER_NAME("SAB Intial Report"), 
+	CONNECTIONPOINT("CMTOS_CP");
 
 	private String setting;
 
